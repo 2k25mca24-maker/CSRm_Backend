@@ -1,0 +1,28 @@
+package com.csrm.controller;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.csrm.entity.AuditLog;
+import com.csrm.service.AuditService;
+
+@RestController
+@RequestMapping("/api/audit")
+public class AuditController {
+    @Autowired AuditService service;
+
+    @GetMapping
+    public List<AuditLog> logs(@RequestParam(required = false) Long userId,
+                               @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return service.filter(userId,
+                date == null ? null : date.atStartOfDay(),
+                date == null ? null : date.plusDays(1).atStartOfDay());
+    }
+}
