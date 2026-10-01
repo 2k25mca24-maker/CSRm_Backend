@@ -25,3 +25,4 @@ ENV PORT=8002
 EXPOSE 8002
 
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+
